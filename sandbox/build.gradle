@@ -4,3 +4,12 @@ apply plugin: 'application'
 
 mainClassName = 'ru.stqa.pft.sandbox.MyFirstProgram'
 
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.testng:testng:6.9.10'
+}
+
+
