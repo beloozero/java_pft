@@ -25,7 +25,36 @@ public class ContactHelper extends BaseHelper {
     click(By.name("submit"));
   }
 
-  public void gotoHomePageAfterContactCreation() {
+  public void gotoHomePageAfterAddressBookModification() {
     click(By.linkText("home page"));
+  }
+
+  public void selectContact() {
+    click(By.name("selected[]"));
+  }
+
+  public void deleteSelectedContactsFromContactList() {
+    click(By.xpath("//input[@value='Delete']"));
+    wd.switchTo().alert().accept();
+  }
+
+  public void deleteContactFromContactEditForm() {
+    click(By.xpath("//div[@id='content']/form[2]/input[2]"));
+  }
+
+  public void initContactModificationFromContactList() {
+    click(By.xpath("//img[@alt='Edit']"));
+  }
+
+  public void initContactModificationFromContactDetails() {
+    click(By.name("modifiy"));
+  }
+
+  public void submitContactModification() {
+    click(By.name("update"));
+  }
+
+  public void openContactDetails() {
+    click(By.xpath("//img[@alt='Details']"));
   }
 }
