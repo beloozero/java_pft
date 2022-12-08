@@ -2,6 +2,9 @@ package ru.stqa.pft.addressbook.appmanager;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
+import org.openqa.selenium.remote.Browser;
 
 import java.time.Duration;
 
@@ -11,11 +14,21 @@ public class ApplicationManager {
   private SessionHelper sessionHelper;
   private GroupHelper groupHelper;
   private NavigationHelper navigationHelper;
+  private String browser;
 
+  public ApplicationManager(String browser) {
+    this.browser = browser;
+  }
 
   public void init() {
-    System.setProperty("webdriver.chrome.driver", "C:\\Windows\\System32\\chromedriver_108.exe");
-    wd = new ChromeDriver();
+    if (browser.equals(Browser.CHROME.browserName())) {
+      System.setProperty("webdriver.chrome.driver", "C:/Tools/chromedriver_108.exe");
+      wd = new ChromeDriver();
+    } else if (browser.equals(Browser.FIREFOX.browserName())) {
+      System.setProperty("webdriver.gecko.driver", "C:/Tools/geckodriver.exe");
+      wd = new FirefoxDriver(new FirefoxOptions().setBinary("C:/Program Files/Mozilla Firefox/firefox.exe"));
+    }
+
     groupHelper = new GroupHelper(wd);
     navigationHelper = new NavigationHelper(wd);
     sessionHelper = new SessionHelper(wd);
