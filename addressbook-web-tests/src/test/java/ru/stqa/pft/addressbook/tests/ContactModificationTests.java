@@ -9,7 +9,7 @@ public class ContactModificationTests extends TestBase {
   public void testContactModificationFromContactDetails() {
     app.getContactHelper().openContactDetails();
     app.getContactHelper().initContactModificationFromContactDetails();
-    app.getContactHelper().fillContactForm(new ContactData("Детали", "Редач", "+73834567890", "89534563245", "kk@mail.ru"));
+    app.getContactHelper().fillContactForm(new ContactData("Детали", "Редач", "+73834567890", "89534563245", "kk@mail.ru", null), false);
     app.getContactHelper().submitContactModification();
     app.getContactHelper().gotoHomePageAfterAddressBookModification();
   }
@@ -17,7 +17,7 @@ public class ContactModificationTests extends TestBase {
   @Test
   public void testContactModificationFromContactList() {
     app.getContactHelper().initContactModificationFromContactList();
-    app.getContactHelper().fillContactForm(new ContactData("Кнопка Редач", "Редач", "+73834567890", "89534563245", "kk@mail.ru"));
+    app.getContactHelper().fillContactForm(new ContactData("Кнопка Редач", "Редач", "+73834567890", "89534563245", "kk@mail.ru", null), false);
     app.getContactHelper().submitContactModification();
     app.getContactHelper().gotoHomePageAfterAddressBookModification();
   }
