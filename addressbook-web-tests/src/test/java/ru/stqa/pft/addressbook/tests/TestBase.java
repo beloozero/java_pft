@@ -6,7 +6,7 @@ import org.testng.annotations.BeforeMethod;
 import ru.stqa.pft.addressbook.appmanager.ApplicationManager;
 
 public class TestBase {
-  protected final ApplicationManager app = new ApplicationManager(Browser.FIREFOX.browserName());
+  protected final ApplicationManager app = new ApplicationManager(Browser.CHROME.browserName());
 
   @BeforeMethod(alwaysRun = true)
   public void setUp() {

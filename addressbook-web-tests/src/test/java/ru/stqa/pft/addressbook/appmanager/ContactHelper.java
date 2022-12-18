@@ -22,7 +22,9 @@ public class ContactHelper extends BaseHelper {
     type(By.name("mobile"), contactData.getMobilePhone());
     type(By.name("email"), contactData.getEmail());
     if (creation) {
-      new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(contactData.getGroup());
+      if (contactData.getGroup() != null) {
+        new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(contactData.getGroup());
+      }
     } else {
       Assert.assertFalse(isElementPresent(By.name("new_group")));
     }
@@ -63,5 +65,16 @@ public class ContactHelper extends BaseHelper {
 
   public void openContactDetails() {
     click(By.xpath("//img[@alt='Details']"));
+  }
+
+  public boolean isThereAContact() {
+    return isElementPresent(By.name("selected[]"));
+  }
+
+  public void createContact(ContactData contactData) {
+    initContactCreation();
+    fillContactForm(contactData, true);
+    submitContactCreation();
+    gotoHomePageAfterAddressBookModification();
   }
 }
