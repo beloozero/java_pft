@@ -2,9 +2,13 @@ package ru.stqa.pft.addressbook.appmanager;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import ru.stqa.pft.addressbook.model.ContactData;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ContactHelper extends BaseHelper {
   public ContactHelper(WebDriver wd) {
@@ -38,8 +42,8 @@ public class ContactHelper extends BaseHelper {
     click(By.linkText("home page"));
   }
 
-  public void selectContact() {
-    click(By.name("selected[]"));
+  public void selectContact(int index) {
+    wd.findElements(By.name("selected[]")).get(index).click();
   }
 
   public void deleteSelectedContactsFromContactList() {
@@ -51,8 +55,8 @@ public class ContactHelper extends BaseHelper {
     click(By.xpath("//div[@id='content']/form[2]/input[2]"));
   }
 
-  public void initContactModificationFromContactList() {
-    click(By.xpath("//img[@alt='Edit']"));
+  public void initContactModificationFromContactList(int index) {
+    wd.findElements(By.xpath("//img[@alt='Edit']")).get(index).click();
   }
 
   public void initContactModificationFromContactDetails() {
@@ -63,8 +67,8 @@ public class ContactHelper extends BaseHelper {
     click(By.name("update"));
   }
 
-  public void openContactDetails() {
-    click(By.xpath("//img[@alt='Details']"));
+  public void openContactDetails(int index) {
+    wd.findElements(By.xpath("//img[@alt='Details']")).get(index).click();
   }
 
   public boolean isThereAContact() {
@@ -76,5 +80,18 @@ public class ContactHelper extends BaseHelper {
     fillContactForm(contactData, true);
     submitContactCreation();
     gotoHomePageAfterAddressBookModification();
+  }
+
+  public List<ContactData> getContactList() {
+    List<ContactData> contacts = new ArrayList<>();
+    List<WebElement> contactRows = wd.findElements(By.name("entry"));
+    for (WebElement cr : contactRows) {
+      List<WebElement> contactFields = cr.findElements(By.tagName("td"));
+      String lastName = contactFields.get(1).getText();
+      String firstName = contactFields.get(2).getText();
+      int id = Integer.parseInt(cr.findElement(By.name("selected[]")).getAttribute("id"));
+      contacts.add(new ContactData(id, firstName, lastName, null, null, null, null));
+    }
+    return contacts;
   }
 }
