@@ -6,10 +6,9 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import ru.stqa.pft.addressbook.model.ContactData;
+import ru.stqa.pft.addressbook.model.Contacts;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import static ru.stqa.pft.addressbook.tests.TestBase.app;
 
@@ -112,8 +111,8 @@ public class ContactHelper extends BaseHelper {
     gotoHomePageAfterAddressBookModification();
   }
 
-  public Set<ContactData> all() {
-    Set<ContactData> contacts = new HashSet<>();
+  public Contacts all() {
+    Contacts contacts = new Contacts();
     List<WebElement> contactRows = wd.findElements(By.name("entry"));
     for (WebElement cr : contactRows) {
       List<WebElement> contactFields = cr.findElements(By.tagName("td"));
