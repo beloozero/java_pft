@@ -7,8 +7,9 @@ import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import ru.stqa.pft.addressbook.model.ContactData;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static ru.stqa.pft.addressbook.tests.TestBase.app;
 
@@ -44,8 +45,8 @@ public class ContactHelper extends BaseHelper {
     click(By.linkText("home page"));
   }
 
-  public void select(int index) {
-    wd.findElements(By.name("selected[]")).get(index).click();
+  private void selectById(int id) {
+    wd.findElement(By.xpath("//input[@id='"+id + "']")).click();
   }
 
   public void initDeletionFromContactList() {
@@ -57,33 +58,33 @@ public class ContactHelper extends BaseHelper {
     click(By.xpath("//div[@id='content']/form[2]/input[2]"));
   }
 
-  public void initModificationFromContactList(int index) {
-    wd.findElements(By.xpath("//img[@alt='Edit']")).get(index).click();
+  private void initModificationFromContactListById(int id) {
+    wd.findElement(By.xpath("//input[@id='"+ id + "']/../..//img[@title='Edit']")).click();
   }
 
-  public void modifyFromContactDetails(int index, ContactData newContact) {
-    openDetails(index);
+  public void modifyFromContactDetails(ContactData newContact) {
+    openDetailsById(newContact.getId());
     initModificationFromContactDetails();
     fillForm(newContact, false);
     submitModification();
     gotoHomePageAfterAddressBookModification();
   }
 
-  public void modifyFromContactList(int index, ContactData newContact) {
-    initModificationFromContactList(index);
+  public void modifyFromContactList(ContactData newContact) {
+    initModificationFromContactListById(newContact.getId());
     fillForm(newContact, false);
     submitModification();
     gotoHomePageAfterAddressBookModification();
   }
 
-  public void deleteFromContactList(int index) {
-    select(index);
+  public void deleteFromContactList(ContactData contact) {
+    selectById(contact.getId());
     initDeletionFromContactList();
     app.goTo().homePage();
   }
 
-  public void deleteFromContactEditForm(int index) {
-    initModificationFromContactList(index);
+  public void deleteFromContactEditForm(ContactData contact) {
+    initModificationFromContactListById(contact.getId());
     initDeletionFromContactEditForm();
     app.goTo().homePage();
   }
@@ -96,8 +97,8 @@ public class ContactHelper extends BaseHelper {
     click(By.name("update"));
   }
 
-  public void openDetails(int index) {
-    wd.findElements(By.xpath("//img[@alt='Details']")).get(index).click();
+  private void openDetailsById(int id) {
+    wd.findElement(By.xpath("//input[@id='"+ id + "']/../..//img[@title='Details']")).click();
   }
 
   public boolean isThereAContact() {
@@ -111,8 +112,8 @@ public class ContactHelper extends BaseHelper {
     gotoHomePageAfterAddressBookModification();
   }
 
-  public List<ContactData> list() {
-    List<ContactData> contacts = new ArrayList<>();
+  public Set<ContactData> all() {
+    Set<ContactData> contacts = new HashSet<>();
     List<WebElement> contactRows = wd.findElements(By.name("entry"));
     for (WebElement cr : contactRows) {
       List<WebElement> contactFields = cr.findElements(By.tagName("td"));
@@ -123,4 +124,5 @@ public class ContactHelper extends BaseHelper {
     }
     return contacts;
   }
+
 }
