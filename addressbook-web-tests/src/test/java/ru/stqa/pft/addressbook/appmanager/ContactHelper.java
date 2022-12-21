@@ -13,6 +13,8 @@ import java.util.List;
 import static ru.stqa.pft.addressbook.tests.TestBase.app;
 
 public class ContactHelper extends BaseHelper {
+
+  private Contacts contactCache = null;
   public ContactHelper(WebDriver wd) {
     super(wd);
   }
@@ -61,33 +63,6 @@ public class ContactHelper extends BaseHelper {
     wd.findElement(By.xpath("//input[@id='"+ id + "']/../..//img[@title='Edit']")).click();
   }
 
-  public void modifyFromContactDetails(ContactData newContact) {
-    openDetailsById(newContact.getId());
-    initModificationFromContactDetails();
-    fillForm(newContact, false);
-    submitModification();
-    gotoHomePageAfterAddressBookModification();
-  }
-
-  public void modifyFromContactList(ContactData newContact) {
-    initModificationFromContactListById(newContact.getId());
-    fillForm(newContact, false);
-    submitModification();
-    gotoHomePageAfterAddressBookModification();
-  }
-
-  public void deleteFromContactList(ContactData contact) {
-    selectById(contact.getId());
-    initDeletionFromContactList();
-    app.goTo().homePage();
-  }
-
-  public void deleteFromContactEditForm(ContactData contact) {
-    initModificationFromContactListById(contact.getId());
-    initDeletionFromContactEditForm();
-    app.goTo().homePage();
-  }
-
   public void initModificationFromContactDetails() {
     click(By.name("modifiy"));
   }
@@ -108,20 +83,54 @@ public class ContactHelper extends BaseHelper {
     initCreation();
     fillForm(contactData, true);
     submitCreation();
+    contactCache = null;
     gotoHomePageAfterAddressBookModification();
   }
 
+  public void modifyFromContactDetails(ContactData newContact) {
+    openDetailsById(newContact.getId());
+    initModificationFromContactDetails();
+    fillForm(newContact, false);
+    submitModification();
+    contactCache = null;
+    gotoHomePageAfterAddressBookModification();
+  }
+
+  public void modifyFromContactList(ContactData newContact) {
+    initModificationFromContactListById(newContact.getId());
+    fillForm(newContact, false);
+    submitModification();
+    contactCache = null;
+    gotoHomePageAfterAddressBookModification();
+  }
+
+  public void deleteFromContactList(ContactData contact) {
+    selectById(contact.getId());
+    initDeletionFromContactList();
+    contactCache = null;
+    app.goTo().homePage();
+  }
+
+  public void deleteFromContactEditForm(ContactData contact) {
+    initModificationFromContactListById(contact.getId());
+    initDeletionFromContactEditForm();
+    contactCache = null;
+    app.goTo().homePage();
+  }
+
   public Contacts all() {
-    Contacts contacts = new Contacts();
-    List<WebElement> contactRows = wd.findElements(By.name("entry"));
-    for (WebElement cr : contactRows) {
-      List<WebElement> contactFields = cr.findElements(By.tagName("td"));
-      String lastName = contactFields.get(1).getText();
-      String firstName = contactFields.get(2).getText();
-      int id = Integer.parseInt(cr.findElement(By.name("selected[]")).getAttribute("id"));
-      contacts.add(new ContactData().withId(id).withFirstName(firstName).withLastName(lastName));
+    if (contactCache == null) {
+      contactCache = new Contacts();
+      List<WebElement> contactRows = wd.findElements(By.name("entry"));
+      for (WebElement cr : contactRows) {
+        List<WebElement> contactFields = cr.findElements(By.tagName("td"));
+        String lastName = contactFields.get(1).getText();
+        String firstName = contactFields.get(2).getText();
+        int id = Integer.parseInt(cr.findElement(By.name("selected[]")).getAttribute("id"));
+        contactCache.add(new ContactData().withId(id).withFirstName(firstName).withLastName(lastName));
+      }
     }
-    return contacts;
+    return new Contacts(contactCache);
   }
 
 }

@@ -9,6 +9,8 @@ import ru.stqa.pft.addressbook.model.Groups;
 import java.util.List;
 
 public class GroupHelper extends BaseHelper {
+
+  private Groups groupCache = null;
   public GroupHelper(WebDriver wd) {
     super(wd);
   }
@@ -39,12 +41,6 @@ public class GroupHelper extends BaseHelper {
     click(By.name("delete"));
   }
 
-  public void delete(GroupData group) {
-    selectById(group.getId());
-    initDeletion();
-    returnToGroupPage();
-  }
-
   public void initModification() {
     click(By.name("edit"));
   }
@@ -58,6 +54,7 @@ public class GroupHelper extends BaseHelper {
     initCreation();
     fillGroupForm(groupData);
     submitCreation();
+    groupCache = null;
     returnToGroupPage();
   }
 
@@ -66,6 +63,14 @@ public class GroupHelper extends BaseHelper {
     initModification();
     fillGroupForm(newGroup);
     submitModification();
+    groupCache = null;
+    returnToGroupPage();
+  }
+
+  public void delete(GroupData group) {
+    selectById(group.getId());
+    initDeletion();
+    groupCache = null;
     returnToGroupPage();
   }
 
@@ -79,14 +84,16 @@ public class GroupHelper extends BaseHelper {
 
 
   public Groups all() {
-    Groups groups = new Groups();
-    List<WebElement> elements =  wd.findElements(By.cssSelector("span.group"));
-    for (WebElement element : elements) {
-      String name = element.getText();
-      int id = Integer.parseInt(element.findElement(By.tagName("input")).getAttribute("value"));
-      groups.add(new GroupData().withId(id).withName(name));
+    if (groupCache == null) {
+      groupCache = new Groups();
+      List<WebElement> elements = wd.findElements(By.cssSelector("span.group"));
+      for (WebElement element : elements) {
+        String name = element.getText();
+        int id = Integer.parseInt(element.findElement(By.tagName("input")).getAttribute("value"));
+        groupCache.add(new GroupData().withId(id).withName(name));
+      }
     }
-    return groups;
+    return new Groups(groupCache);
   }
 
 }
