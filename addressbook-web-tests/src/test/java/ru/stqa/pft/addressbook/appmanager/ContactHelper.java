@@ -79,6 +79,10 @@ public class ContactHelper extends BaseHelper {
     return isElementPresent(By.name("selected[]"));
   }
 
+  public int count() {
+    return wd.findElements(By.xpath("//tr[@name='entry']")).size();
+  }
+
   public void create(ContactData contactData) {
     initCreation();
     fillForm(contactData, true);
