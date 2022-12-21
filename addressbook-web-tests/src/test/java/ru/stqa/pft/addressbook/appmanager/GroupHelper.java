@@ -78,6 +78,10 @@ public class GroupHelper extends BaseHelper {
     return isElementPresent(By.name("selected[]"));
   }
 
+  public boolean checkGroupByName(String name) {
+    return isElementPresent(By.xpath(String.format("//span[@class='group'][.='%s']", name)));
+  }
+
   public int count() {
     return wd.findElements(By.className("group")).size();
   }

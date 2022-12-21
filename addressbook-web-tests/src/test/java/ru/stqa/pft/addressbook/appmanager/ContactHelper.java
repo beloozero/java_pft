@@ -26,12 +26,19 @@ public class ContactHelper extends BaseHelper {
   public void fillForm(ContactData contactData, boolean creation) {
     type(By.name("firstname"), contactData.getFirstName());
     type(By.name("lastname"), contactData.getLastName());
+    type(By.name("address"), contactData.getAddress());
     type(By.name("home"), contactData.getHomePhone());
     type(By.name("mobile"), contactData.getMobilePhone());
+    type(By.name("work"), contactData.getWorkPhone());
     type(By.name("email"), contactData.getEmail());
+    type(By.name("email2"), contactData.getEmail2());
+    type(By.name("email3"), contactData.getEmail3());
+    type(By.name("phone2"), contactData.getPhone2());
     if (creation) {
       if (contactData.getGroup() != null) {
         new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(contactData.getGroup());
+      } else if (contactData.getGroupId() != 0) {
+        new Select(wd.findElement(By.name("new_group"))).selectByValue(Integer.toString(contactData.getGroupId()));
       }
     } else {
       Assert.assertFalse(isElementPresent(By.name("new_group")));
@@ -131,9 +138,11 @@ public class ContactHelper extends BaseHelper {
         int id = Integer.parseInt(contactFields.get(0).findElement(By.tagName("input")).getAttribute("id"));
         String lastName = contactFields.get(1).getText();
         String firstName = contactFields.get(2).getText();
-        String[] phones = contactFields.get(5).getText().split("\n");
+        String allPhones = contactFields.get(5).getText();
+        String address = contactFields.get(3).getText();
+        String allEmail = contactFields.get(4).getText();
         contactCache.add(new ContactData().withId(id).withFirstName(firstName).withLastName(lastName)
-                .withHomePhone(phones[0]).withMobilePhone(phones[1]).withWorkPhone(phones[2]));
+                .withAllPhones(allPhones).withAddress(address).withAllEmail(allEmail));
       }
     }
     return new Contacts(contactCache);
@@ -146,9 +155,15 @@ public class ContactHelper extends BaseHelper {
     String homePhone = wd.findElement(By.name("home")).getAttribute("value");
     String mobilePhone = wd.findElement(By.name("mobile")).getAttribute("value");
     String workPhone = wd.findElement(By.name("work")).getAttribute("value");
+    String phone2 = wd.findElement(By.name("phone2")).getAttribute("value");
+    String address = wd.findElement(By.name("address")).getText();
+    String email = wd.findElement(By.name("email")).getAttribute("value");
+    String email2 = wd.findElement(By.name("email2")).getAttribute("value");
+    String email3 = wd.findElement(By.name("email3")).getAttribute("value");
     wd.navigate().back();
     return new ContactData().withId(contact.getId()).withFirstName(firstname).withLastName(lastname)
-            .withHomePhone(homePhone).withMobilePhone(mobilePhone).withWorkPhone(workPhone);
+            .withHomePhone(homePhone).withMobilePhone(mobilePhone).withWorkPhone(workPhone).withPhone2(phone2)
+            .withAddress(address).withEmail(email).withEmail2(email2).withEmail3(email3);
   }
 
 }
