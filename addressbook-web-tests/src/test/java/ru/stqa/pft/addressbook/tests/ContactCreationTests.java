@@ -12,7 +12,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 public class ContactCreationTests extends TestBase {
 
-  int groupIdForContactCreation = 0;
+  private int groupIdForContactCreation = 0;
 
   @BeforeMethod
   public void ensurePreconditions() {
