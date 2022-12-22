@@ -5,6 +5,8 @@ import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 
+import java.io.File;
+
 public class BaseHelper {
   protected WebDriver wd;
 
@@ -26,6 +28,12 @@ public class BaseHelper {
       }
     }
   }
+
+  protected void attach(By locator, File file) {
+    if (file != null) { // проверяем именно наличие в переменной ссылки на объект
+        wd.findElement(locator).sendKeys(file.getAbsolutePath());
+      }
+    }
 
   public boolean isAlertPresent() {
     try {
