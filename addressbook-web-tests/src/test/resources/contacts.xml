@@ -1,0 +1,66 @@
+<list>
+  <contact>
+    <firstName>имя 0</firstName>
+    <lastName>фамилия 0</lastName>
+    <homePhone>8 945 0000000</homePhone>
+    <mobilePhone>+7 (947) 000-00-00</mobilePhone>
+    <workPhone>83830000000</workPhone>
+    <phone2>+7 966 000 00 00</phone2>
+    <address>654354 Россия, Москва, улица Пушкина, дом 0</address>
+    <email>email10@mail.ru</email>
+    <email2>email20@mail.ru</email2>
+    <email3>email30@mail.ru</email3>
+  </contact>
+  <contact>
+    <firstName>имя 1</firstName>
+    <lastName>фамилия 1</lastName>
+  </contact>
+  <contact>
+    <firstName>имя 2</firstName>
+    <lastName>фамилия 2</lastName>
+    <homePhone>8 945 2222222</homePhone>
+    <address>654354 Россия, Москва, улица Пушкина, дом 2</address>
+  </contact>
+  <contact>
+    <firstName>имя 3</firstName>
+    <lastName>фамилия 3</lastName>
+    <email>email13@mail.ru</email>
+  </contact>
+  <contact>
+    <firstName>имя 4</firstName>
+    <lastName>фамилия 4</lastName>
+    <homePhone>8 945 4444444</homePhone>
+    <address>654354 Россия, Москва, улица Пушкина, дом 4</address>
+  </contact>
+  <contact>
+    <firstName>имя 5</firstName>
+    <lastName>фамилия 5</lastName>
+    <workPhone>83835555555</workPhone>
+    <email2>email25@mail.ru</email2>
+  </contact>
+  <contact>
+    <firstName>имя 6</firstName>
+    <lastName>фамилия 6</lastName>
+    <homePhone>8 945 6666666</homePhone>
+    <address>654354 Россия, Москва, улица Пушкина, дом 6</address>
+    <email>email16@mail.ru</email>
+  </contact>
+  <contact>
+    <firstName>имя 7</firstName>
+    <lastName>фамилия 7</lastName>
+    <mobilePhone>+7 (947) 777-77-77</mobilePhone>
+    <email3>email37@mail.ru</email3>
+  </contact>
+  <contact>
+    <firstName>имя 8</firstName>
+    <lastName>фамилия 8</lastName>
+    <homePhone>8 945 8888888</homePhone>
+    <address>654354 Россия, Москва, улица Пушкина, дом 8</address>
+  </contact>
+  <contact>
+    <firstName>имя 9</firstName>
+    <lastName>фамилия 9</lastName>
+    <phone2>+7 966 999 99 99</phone2>
+    <email>email19@mail.ru</email>
+  </contact>
+</list>
