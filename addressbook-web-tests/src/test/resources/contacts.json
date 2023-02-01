@@ -1,0 +1,29 @@
+[
+  {
+    "firstName": "имя 0",
+    "lastName": "фамилия 0",
+    "homePhone": "8 945 0000000",
+    "mobilePhone": "+7 (947) 000-00-00",
+    "workPhone": "83830000000",
+    "phone2": "+7 966 000 00 00",
+    "address": "654354 Россия, Москва, улица Пушкина, дом 0",
+    "email": "email10@mail.ru",
+    "email2": "email20@mail.ru",
+    "email3": "email30@mail.ru"
+  },
+  {
+    "firstName": "имя 1",
+    "lastName": "фамилия 1"
+  },
+  {
+    "firstName": "имя 2",
+    "lastName": "фамилия 2",
+    "homePhone": "8 945 2222222",
+    "address": "654354 Россия, Москва, улица Пушкина, дом 2"
+  },
+  {
+    "firstName": "имя 3",
+    "lastName": "фамилия 3",
+    "email": "email13@mail.ru"
+  }
+]
