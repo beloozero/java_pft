@@ -12,10 +12,12 @@ public class ContactModificationTests extends TestBase {
 
   @BeforeMethod
   public void ensurePreconditions() {
+    app.goTo().homePage();
     if (app.contact().all().size() == 0) {
       app.contact().create(new ContactData()
               .withFirstName("Катя").withLastName("Котеночкина").withHomePhone("+73834567890")
-              .withMobilePhone("89534563245").withEmail("kk@mail.ru"));
+              .withMobilePhone("89534563245").withEmail("kk@mail.ru")
+              .withAddress("адрес Кати"));
     }
   }
 
@@ -23,10 +25,27 @@ public class ContactModificationTests extends TestBase {
   public void testContactModificationFromContactDetails() {
     Contacts before = app.contact().all();
     ContactData modifiedContact = before.iterator().next();
+    ContactData modifiedContactInfo = app.contact().infoFromEditForm(modifiedContact);
     ContactData newContact = new ContactData()
-            .withId(modifiedContact.getId()).withFirstName("Bob").withLastName("Bobsky")
-            .withHomePhone("+73834567890").withMobilePhone("89534563245").withEmail("kk@mail.ru");
+            .withId(modifiedContact.getId())
+            .withFirstName("Bob")
+            .withLastName("Bobsky")
+            .withHomePhone("+73834567890")
+            .withMobilePhone("89534563245")
+            .withEmail("kk@mail.ru")
+            ;
     app.contact().modifyFromContactDetails(newContact);
+    newContact = newContact
+            .withPhoto(modifiedContactInfo.getPhoto())
+            .withWorkPhone(modifiedContactInfo.getWorkPhone())
+            .withPhone2(modifiedContactInfo.getPhone2())
+            .withAddress(modifiedContactInfo.getAddress())
+            .withEmail2(modifiedContactInfo.getEmail2())
+            .withEmail3(modifiedContactInfo.getEmail3())
+            .withGroup(modifiedContactInfo.getGroup())
+            .withGroupId(modifiedContactInfo.getGroupId());
+    app.contact().fillAllPhones(newContact);
+    app.contact().fillAllEmail(newContact);
     assertThat(app.contact().count(), equalTo(before.size()));
     Contacts after = app.contact().all();
     assertThat(after, equalTo(before.without(modifiedContact).withAdded(newContact)));
@@ -36,10 +55,26 @@ public class ContactModificationTests extends TestBase {
   public void testContactModificationFromContactList() {
     Contacts before = app.contact().all();
     ContactData modifiedContact = before.iterator().next();
+    ContactData modifiedContactInfo = app.contact().infoFromEditForm(modifiedContact);
     ContactData newContact = new ContactData()
-            .withId(modifiedContact.getId()).withFirstName("Кнопка Редач").withLastName("Редач")
-            .withHomePhone("+73834567890").withMobilePhone("89534563245").withEmail("kk@mail.ru");
+            .withId(modifiedContact.getId())
+            .withFirstName("Кнопка Редач")
+            .withLastName("Редач")
+            .withHomePhone("+73834567890")
+            .withMobilePhone("89534563245")
+            .withEmail("kk@mail.ru");
     app.contact().modifyFromContactList(newContact);
+    newContact = newContact
+            .withPhoto(modifiedContactInfo.getPhoto())
+            .withWorkPhone(modifiedContactInfo.getWorkPhone())
+            .withPhone2(modifiedContactInfo.getPhone2())
+            .withAddress(modifiedContactInfo.getAddress())
+            .withEmail2(modifiedContactInfo.getEmail2())
+            .withEmail3(modifiedContactInfo.getEmail3())
+            .withGroup(modifiedContactInfo.getGroup())
+            .withGroupId(modifiedContactInfo.getGroupId());
+    app.contact().fillAllPhones(newContact);
+    app.contact().fillAllEmail(newContact);
     assertThat(app.contact().count(), equalTo(before.size()));
     Contacts after = app.contact().all();
     assertThat(after, equalTo(before.without(modifiedContact).withAdded(newContact)));

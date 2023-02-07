@@ -194,6 +194,9 @@ public class ContactData {
             "id=" + id +
             ", firstName='" + firstName + '\'' +
             ", lastName='" + lastName + '\'' +
+            ", address='" + address + '\'' +
+            ", allPhones='" + allPhones + '\'' +
+            ", allEmail='" + allEmail + '\'' +
             '}';
   }
 
@@ -205,8 +208,28 @@ public class ContactData {
     ContactData that = (ContactData) o;
 
     if (id != that.id) return false;
-    if (!Objects.equals(firstName, that.firstName)) return false;
-    return Objects.equals(lastName, that.lastName);
+
+    if ( (firstName != null && !firstName.equals("") ) && (that.firstName == null || that.firstName.equals(""))) return false;
+    if ( (that.firstName != null && !that.firstName.equals("") ) && (firstName == null || firstName.equals(""))) return false;
+    if (firstName != null && that.firstName != null && !Objects.equals(firstName, that.firstName)) return false;
+
+    if ( (lastName != null && !lastName.equals("") ) && (that.lastName == null || that.lastName.equals(""))) return false;
+    if ( (that.lastName != null && !that.lastName.equals("") ) && (lastName == null || lastName.equals(""))) return false;
+    if (lastName != null && that.lastName != null && !Objects.equals(lastName, that.lastName)) return false;
+
+    if ( (address != null && !address.equals("") ) && (that.address == null || that.address.equals(""))) return false;
+    if ( (that.address != null && !that.address.equals("") ) && (address == null || address.equals(""))) return false;
+    if (address != null && that.address != null && !Objects.equals(address, that.address)) return false;
+
+    if ( (allPhones != null && !allPhones.equals("") ) && (that.allPhones == null || that.allPhones.equals(""))) return false;
+    if ( (that.allPhones != null && !that.allPhones.equals("") ) && (allPhones == null || allPhones.equals(""))) return false;
+    if (allPhones != null && that.allPhones != null && !Objects.equals(allPhones, that.allPhones)) return false;
+
+    if ( (allEmail != null && !allEmail.equals("") ) && (that.allEmail == null || that.allEmail.equals(""))) return false;
+    if ( (that.allEmail != null && !that.allEmail.equals("") ) && (allEmail == null || allEmail.equals(""))) return false;
+    if (allEmail != null && that.allEmail != null && !Objects.equals(allEmail, that.allEmail)) return false;
+
+    return true;
   }
 
   @Override
@@ -214,6 +237,9 @@ public class ContactData {
     int result = id;
     result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
     result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
+    result = 31 * result + (address != null ? address.hashCode() : 0);
+    result = 31 * result + (allPhones != null ? allPhones.hashCode() : 0);
+    result = 31 * result + (allEmail != null ? allEmail.hashCode() : 0);
     return result;
   }
 }

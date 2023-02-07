@@ -58,6 +58,8 @@ public class GroupData {
     return "GroupData{" +
             "id=" + id +
             ", name='" + name + '\'' +
+            ", header='" + header + '\'' +
+            ", footer='" + footer + '\'' +
             '}';
   }
 
@@ -69,7 +71,12 @@ public class GroupData {
     GroupData groupData = (GroupData) o;
 
     if (id != groupData.id) return false;
-    return Objects.equals(name, groupData.name);
+
+    if ( (name != null && !name.equals("") ) && (groupData.name == null || groupData.name.equals(""))) return false;
+    if ( (groupData.name != null && !groupData.name.equals("") ) && (name == null || name.equals(""))) return false;
+    if (name != null && groupData.name != null && !Objects.equals(name, groupData.name)) return false;
+
+    return true;
   }
 
   @Override

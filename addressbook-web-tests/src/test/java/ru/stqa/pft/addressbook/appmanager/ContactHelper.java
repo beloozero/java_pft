@@ -8,7 +8,9 @@ import org.testng.Assert;
 import ru.stqa.pft.addressbook.model.ContactData;
 import ru.stqa.pft.addressbook.model.Contacts;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static ru.stqa.pft.addressbook.tests.TestBase.app;
 
@@ -26,7 +28,9 @@ public class ContactHelper extends BaseHelper {
   public void fillForm(ContactData contactData, boolean creation) {
     type(By.name("firstname"), contactData.getFirstName());
     type(By.name("lastname"), contactData.getLastName());
-    attach(By.name("photo"), contactData.getPhoto());
+    if (contactData.getPhoto() != null) {
+      attach(By.name("photo"), contactData.getPhoto());
+    }
     type(By.name("address"), contactData.getAddress());
     type(By.name("home"), contactData.getHomePhone());
     type(By.name("mobile"), contactData.getMobilePhone());
@@ -165,6 +169,53 @@ public class ContactHelper extends BaseHelper {
     return new ContactData().withId(contact.getId()).withFirstName(firstname).withLastName(lastname)
             .withHomePhone(homePhone).withMobilePhone(mobilePhone).withWorkPhone(workPhone).withPhone2(phone2)
             .withAddress(address).withEmail(email).withEmail2(email2).withEmail3(email3);
+  }
+
+  public String mergePhones(ContactData contact) {
+    String homePhone = "";
+    String mobilePhone = "";
+    String workPhone = "";
+    String phone2 = "";
+
+    if (contact.getHomePhone() != null)  homePhone = contact.getHomePhone();
+    if (contact.getMobilePhone() != null)  mobilePhone = contact.getMobilePhone();
+    if (contact.getWorkPhone() != null)  workPhone = contact.getWorkPhone() ;
+    if (contact.getPhone2() != null) phone2 = contact.getPhone2();
+
+    return Arrays.asList(homePhone, mobilePhone, workPhone, phone2)
+            .stream().filter((s) -> ! s.equals(""))
+            .map(ContactHelper::cleaned)
+            .collect(Collectors.joining("\n"));
+  }
+
+  public String mergeEmail(ContactData contact) {
+    String email = "";
+    String email2 = "";
+    String email3 = "";
+
+    if (contact.getEmail() != null) email = contact.getEmail();
+    if (contact.getEmail2() != null)  email2 = contact.getEmail2();
+    if (contact.getEmail3() != null)  email3 = contact.getEmail3();
+
+    return Arrays.asList(email, email2, email3)
+            .stream().filter((s) -> ! s.equals("")).collect(Collectors.joining("\n"));
+  }
+
+  public static String cleaned(String phone) {
+    return phone.replaceAll("\\s", "").replaceAll("[-()]", "");
+  }
+
+  public void fillAllPhones (ContactData contactData) {
+    if (contactData.getHomePhone() != null || contactData.getMobilePhone() != null
+            || contactData.getWorkPhone() != null || contactData.getPhone2() != null) {
+      contactData = contactData.withAllPhones(app.contact().mergePhones(contactData));
+    }
+  }
+
+  public void fillAllEmail (ContactData contactData) {
+    if (contactData.getEmail() != null || contactData.getEmail2() != null || contactData.getEmail3() != null) {
+      contactData = contactData.withAllEmail(app.contact().mergeEmail(contactData));
+    }
   }
 
 }

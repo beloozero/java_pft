@@ -3,6 +3,7 @@ package ru.stqa.pft.addressbook.tests;
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
 import com.thoughtworks.xstream.XStream;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import ru.stqa.pft.addressbook.model.GroupData;
@@ -47,9 +48,13 @@ public class GroupCreationTests extends TestBase {
     return groups.stream().map((g) -> new Object[] {g}).collect(Collectors.toList()).iterator();
   }
 
+  @BeforeMethod
+  public void ensurePreconditions() {
+    app.goTo().groupPage();
+  }
+
   @Test(dataProvider = "validGroupsFromJson")
   public void testGroupCreation(GroupData groupData) {
-    app.goTo().groupPage();
     Groups before = app.group().all();
     app.group().create(groupData);
     assertThat(app.group().count(), equalTo(before.size() + 1));
@@ -60,7 +65,6 @@ public class GroupCreationTests extends TestBase {
 
   @Test
   public void testBadGroupCreation() {
-    app.goTo().groupPage();
     Groups before = app.group().all();
     GroupData newGroup = new GroupData().withName("apostrophe'");
     app.group().create(newGroup);
