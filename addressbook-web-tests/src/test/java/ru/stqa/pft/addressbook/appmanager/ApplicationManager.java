@@ -6,9 +6,13 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.remote.Browser;
 
+import java.io.FileReader;
+import java.io.IOException;
 import java.time.Duration;
+import java.util.Properties;
 
 public class ApplicationManager {
+  private final Properties properties;
   WebDriver wd;
   private ContactHelper contactHelper;
   private SessionHelper sessionHelper;
@@ -18,24 +22,27 @@ public class ApplicationManager {
 
   public ApplicationManager(String browser) {
     this.browser = browser;
+    properties = new Properties();
   }
 
-  public void init() {
+  public void init() throws IOException {
+    String target = System.getProperty("target", "local");
+    properties.load(new FileReader(String.format("src/test/resources/%s.properties", target)));
+
     if (browser.equals(Browser.CHROME.browserName())) {
-      System.setProperty("webdriver.chrome.driver", "C:/Tools/chromedriver_108.exe");
+      System.setProperty("webdriver.chrome.driver", properties.getProperty("chrome.driver.path"));
       wd = new ChromeDriver();
     } else if (browser.equals(Browser.FIREFOX.browserName())) {
-      System.setProperty("webdriver.gecko.driver", "C:/Tools/geckodriver.exe");
-      wd = new FirefoxDriver(new FirefoxOptions().setBinary("C:/Program Files/Mozilla Firefox/firefox.exe"));
+      System.setProperty("webdriver.gecko.driver", properties.getProperty("firefox.driver.path"));
+      wd = new FirefoxDriver(new FirefoxOptions().setBinary(properties.getProperty("firefox.driver.binary")));
     }
-
     groupHelper = new GroupHelper(wd);
     navigationHelper = new NavigationHelper(wd);
     sessionHelper = new SessionHelper(wd);
     contactHelper = new ContactHelper(wd);
     wd.manage().timeouts().implicitlyWait(Duration.ofSeconds(1));
-    wd.get("http://localhost/addressbook/");
-    sessionHelper.login("admin", "secret");
+    wd.get(properties.getProperty("web.baseUrl"));
+    sessionHelper.login(properties.getProperty("web.adminLogin"), properties.getProperty("web.adminPassword"));
   }
 
   public void stop() {

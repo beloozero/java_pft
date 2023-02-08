@@ -1,22 +1,17 @@
 <list>
   <group>
     <name>test 0</name>
-    <header>header 0</header>
-    <footer>footer 0</footer>
+    <header>хедер 0</header>
+    <footer>футер 0</footer>
   </group>
   <group>
     <name>test 1</name>
-    <header>header 1</header>
-    <footer>footer 1</footer>
+    <header>хедер 1</header>
+    <footer>футер 1</footer>
   </group>
   <group>
     <name>test 2</name>
-    <header>header 2</header>
-    <footer>footer 2</footer>
-  </group>
-  <group>
-    <name>test 3</name>
-    <header>header 3</header>
-    <footer>footer 3</footer>
+    <header>хедер 2</header>
+    <footer>футер 2</footer>
   </group>
 </list>
