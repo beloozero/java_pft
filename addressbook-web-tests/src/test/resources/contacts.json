@@ -14,16 +14,5 @@
   {
     "firstName": "имя 1",
     "lastName": "фамилия 1"
-  },
-  {
-    "firstName": "имя 2",
-    "lastName": "фамилия 2",
-    "homePhone": "8 945 2222222",
-    "address": "654354 Россия, Москва, улица Пушкина, дом 2"
-  },
-  {
-    "firstName": "имя 3",
-    "lastName": "фамилия 3",
-    "email": "email13@mail.ru"
   }
 ]
