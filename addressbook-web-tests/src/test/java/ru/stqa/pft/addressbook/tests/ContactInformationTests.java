@@ -12,7 +12,7 @@ public class ContactInformationTests extends TestBase {
   @BeforeMethod
   public void ensurePreconditions() {
     app.goTo().homePage();
-    if (app.contact().all().size() == 0
+    if (app.db().contacts().size() == 0
     ) {
       app.contact().create(new ContactData()
               .withFirstName("Вася").withLastName("Васильков")
@@ -23,13 +23,31 @@ public class ContactInformationTests extends TestBase {
   }
 
   @Test
-  public void testContactInformation() {
+  public void testContactInformationFromListAndEditForm() {
     ContactData contact = app.contact().all().iterator().next();
     ContactData contactInfoFromEditForm = app.contact().infoFromEditForm(contact);
 
     assertThat(contact.getAllPhones(), equalTo(app.contact().mergePhones(contactInfoFromEditForm)));
     assertThat(contact.getAddress(), equalTo(contactInfoFromEditForm.getAddress()));
     assertThat(contact.getAllEmail(), equalTo(app.contact().mergeEmail(contactInfoFromEditForm)));
+  }
+
+  @Test
+  public void testContactInformationFromEditForm() {
+    ContactData contact = app.db().contacts().iterator().next();
+    ContactData contactInfoFromEditForm = app.contact().infoFromEditForm(contact);
+
+    assertThat((contact.getFirstName()), equalTo(contactInfoFromEditForm.getFirstName()));
+    assertThat((contact.getLastName()), equalTo(contactInfoFromEditForm.getLastName()));
+    assertThat((contact.getHomePhone()), equalTo(contactInfoFromEditForm.getHomePhone()));
+    assertThat((contact.getMobilePhone()), equalTo(contactInfoFromEditForm.getMobilePhone()));
+    assertThat((contact.getWorkPhone()), equalTo(contactInfoFromEditForm.getWorkPhone()));
+    assertThat((contact.getPhone2()), equalTo(contactInfoFromEditForm.getPhone2()));
+    assertThat((contact.getAddress()), equalTo(contactInfoFromEditForm.getAddress()));
+    assertThat((contact.getEmail()), equalTo(contactInfoFromEditForm.getEmail()));
+    assertThat((contact.getEmail2()), equalTo(contactInfoFromEditForm.getEmail2()));
+    assertThat((contact.getEmail3()), equalTo(contactInfoFromEditForm.getEmail3()));
+
   }
 
 

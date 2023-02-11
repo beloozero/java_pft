@@ -91,6 +91,14 @@ public class GroupData {
     if ( (groupData.name != null && !groupData.name.equals("") ) && (name == null || name.equals(""))) return false;
     if (name != null && groupData.name != null && !Objects.equals(name, groupData.name)) return false;
 
+    if ( (header != null && !header.equals("") ) && (groupData.header == null || groupData.header.equals(""))) return false;
+    if ( (groupData.header != null && !groupData.header.equals("") ) && (header == null || header.equals(""))) return false;
+    if (header != null && groupData.header != null && !Objects.equals(header, groupData.header)) return false;
+
+    if ( (footer != null && !footer.equals("") ) && (groupData.footer == null || groupData.footer.equals(""))) return false;
+    if ( (groupData.footer != null && !groupData.footer.equals("") ) && (footer == null || footer.equals(""))) return false;
+    if (footer != null && groupData.footer != null && !Objects.equals(footer, groupData.footer)) return false;
+
     return true;
   }
 
@@ -98,6 +106,8 @@ public class GroupData {
   public int hashCode() {
     int result = id;
     result = 31 * result + (name != null ? name.hashCode() : 0);
+    result = 31 * result + (header != null ? header.hashCode() : 0);
+    result = 31 * result + (footer != null ? footer.hashCode() : 0);
     return result;
   }
 }

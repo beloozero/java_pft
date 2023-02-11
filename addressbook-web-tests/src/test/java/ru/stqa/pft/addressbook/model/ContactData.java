@@ -20,7 +20,6 @@ public class ContactData {
   private String firstname;
   @Expose
   private String lastname;
-
   @XStreamOmitField
   @Type(type = "text")
   private String photo;
@@ -77,7 +76,11 @@ public class ContactData {
   }
 
   public File getPhoto() {
-    return new File(photo);
+    if (photo != null) {
+      return new File(photo);
+    } else {
+      return null;
+    }
   }
 
   public String getHomePhone() {
@@ -242,13 +245,33 @@ public class ContactData {
     if ( (that.address != null && !that.address.equals("") ) && (address == null || address.equals(""))) return false;
     if (address != null && that.address != null && !Objects.equals(address, that.address)) return false;
 
-    if ( (allPhones != null && !allPhones.equals("") ) && (that.allPhones == null || that.allPhones.equals(""))) return false;
-    if ( (that.allPhones != null && !that.allPhones.equals("") ) && (allPhones == null || allPhones.equals(""))) return false;
-    if (allPhones != null && that.allPhones != null && !Objects.equals(allPhones, that.allPhones)) return false;
+    if ( (homePhone != null && !homePhone.equals("") ) && (that.homePhone == null || that.homePhone.equals(""))) return false;
+    if ( (that.homePhone != null && !that.homePhone.equals("") ) && (homePhone == null || homePhone.equals(""))) return false;
+    if (homePhone != null && that.homePhone != null && !Objects.equals(homePhone, that.homePhone)) return false;
 
-    if ( (allEmail != null && !allEmail.equals("") ) && (that.allEmail == null || that.allEmail.equals(""))) return false;
-    if ( (that.allEmail != null && !that.allEmail.equals("") ) && (allEmail == null || allEmail.equals(""))) return false;
-    if (allEmail != null && that.allEmail != null && !Objects.equals(allEmail, that.allEmail)) return false;
+    if ( (mobilePhone != null && !mobilePhone.equals("") ) && (that.mobilePhone == null || that.mobilePhone.equals(""))) return false;
+    if ( (that.mobilePhone != null && !that.mobilePhone.equals("") ) && (mobilePhone == null || mobilePhone.equals(""))) return false;
+    if (mobilePhone != null && that.mobilePhone != null && !Objects.equals(mobilePhone, that.mobilePhone)) return false;
+
+    if ( (workPhone != null && !workPhone.equals("") ) && (that.workPhone == null || that.workPhone.equals(""))) return false;
+    if ( (that.workPhone != null && !that.workPhone.equals("") ) && (workPhone == null || workPhone.equals(""))) return false;
+    if (workPhone != null && that.workPhone != null && !Objects.equals(workPhone, that.workPhone)) return false;
+
+    if ( (phone2 != null && !phone2.equals("") ) && (that.phone2 == null || that.phone2.equals(""))) return false;
+    if ( (that.phone2 != null && !that.phone2.equals("") ) && (phone2 == null || phone2.equals(""))) return false;
+    if (phone2 != null && that.phone2 != null && !Objects.equals(phone2, that.phone2)) return false;
+
+    if ( (email != null && !email.equals("") ) && (that.email == null || that.email.equals(""))) return false;
+    if ( (that.email != null && !that.email.equals("") ) && (email == null || email.equals(""))) return false;
+    if (email != null && that.email != null && !Objects.equals(email, that.email)) return false;
+
+    if ( (email2 != null && !email2.equals("") ) && (that.email2 == null || that.email2.equals(""))) return false;
+    if ( (that.email2 != null && !that.email2.equals("") ) && (email2 == null || email2.equals(""))) return false;
+    if (email2 != null && that.email2 != null && !Objects.equals(email2, that.email2)) return false;
+
+    if ( (email3 != null && !email3.equals("") ) && (that.email3 == null || that.email3.equals(""))) return false;
+    if ( (that.email3 != null && !that.email3.equals("") ) && (email3 == null || email3.equals(""))) return false;
+    if (email3 != null && that.email3 != null && !Objects.equals(email3, that.email3)) return false;
 
     return true;
   }
@@ -259,8 +282,13 @@ public class ContactData {
     result = 31 * result + (firstname != null ? firstname.hashCode() : 0);
     result = 31 * result + (lastname != null ? lastname.hashCode() : 0);
     result = 31 * result + (address != null ? address.hashCode() : 0);
-    result = 31 * result + (allPhones != null ? allPhones.hashCode() : 0);
-    result = 31 * result + (allEmail != null ? allEmail.hashCode() : 0);
+    result = 31 * result + (homePhone != null ? homePhone.hashCode() : 0);
+    result = 31 * result + (mobilePhone != null ? mobilePhone.hashCode() : 0);
+    result = 31 * result + (workPhone != null ? workPhone.hashCode() : 0);
+    result = 31 * result + (phone2 != null ? phone2.hashCode() : 0);
+    result = 31 * result + (email != null ? email.hashCode() : 0);
+    result = 31 * result + (email2 != null ? email2.hashCode() : 0);
+    result = 31 * result + (email3 != null ? email3.hashCode() : 0);
     return result;
   }
 }

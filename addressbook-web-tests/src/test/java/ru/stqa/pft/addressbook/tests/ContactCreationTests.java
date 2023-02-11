@@ -59,36 +59,32 @@ public class ContactCreationTests extends TestBase {
 
   @Test()
   public void testContactCreationWithPhotoAndGroup() {
-    app.goTo().groupPage();
-    if (app.group().all().size() == 0) {
+    if (app.db().groups().size() == 0) {
+      app.goTo().groupPage();
       app.group().create(new GroupData().withName("Группа для контакта").withHeader("test"));
     }
-    int groupIdForContactCreation = app.group().all().iterator().next().getId();
+    int groupIdForContactCreation = app.db().groups().iterator().next().getId();
     app.goTo().homePage();
 
-    Contacts before = app.contact().all();
+    Contacts before = app.db().contacts();
     File photo = new File("src/test/resources/cat.png");
     ContactData newContact = new ContactData()
             .withFirstName("Маша").withLastName("Аппараткина").withHomePhone("+73834567890")
             .withMobilePhone("89534563245").withEmail("kk@mail.ru").withGroupId(groupIdForContactCreation)
             .withPhoto(photo);
     app.contact().create(newContact);
-    app.contact().fillAllPhones(newContact);
-    app.contact().fillAllEmail(newContact);
     assertThat(app.contact().count(), equalTo(before.size() + 1));
-    Contacts after = app.contact().all();
+    Contacts after = app.db().contacts();
     assertThat(after, equalTo(
             before.withAdded(newContact.withId(after.stream().mapToInt((c) -> c.getId()).max().getAsInt()))));
   }
 
   @Test(dataProvider = "validContactsFromJson")
   public void testContactCreationWithDifferentData(ContactData contactData) {
-    Contacts before = app.contact().all();
+    Contacts before = app.db().contacts();
     app.contact().create(contactData);
-    app.contact().fillAllPhones(contactData);
-    app.contact().fillAllEmail(contactData);
     assertThat(app.contact().count(), equalTo(before.size() + 1));
-    Contacts after = app.contact().all();
+    Contacts after = app.db().contacts();
     assertThat(after, equalTo(
             before.withAdded(contactData.withId(after.stream().mapToInt((c) -> c.getId()).max().getAsInt()))));
   }
