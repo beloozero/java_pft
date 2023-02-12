@@ -182,10 +182,14 @@ public class ContactHelper extends BaseHelper {
     if (contact.getWorkPhone() != null)  workPhone = contact.getWorkPhone() ;
     if (contact.getPhone2() != null) phone2 = contact.getPhone2();
 
-    return Arrays.asList(homePhone, mobilePhone, workPhone, phone2)
-            .stream().filter((s) -> ! s.equals(""))
-            .map(ContactHelper::cleaned)
-            .collect(Collectors.joining("\n"));
+    if (homePhone.equals("") && mobilePhone.equals("") && workPhone.equals("") && phone2.equals("")) {
+      return "";
+    } else {
+      return Arrays.asList(homePhone, mobilePhone, workPhone, phone2)
+              .stream().filter((s) -> ! s.equals(""))
+              .map(ContactHelper::cleaned)
+              .collect(Collectors.joining("\n"));
+    }
   }
 
   public String mergeEmail(ContactData contact) {
@@ -197,25 +201,16 @@ public class ContactHelper extends BaseHelper {
     if (contact.getEmail2() != null)  email2 = contact.getEmail2();
     if (contact.getEmail3() != null)  email3 = contact.getEmail3();
 
-    return Arrays.asList(email, email2, email3)
-            .stream().filter((s) -> ! s.equals("")).collect(Collectors.joining("\n"));
+    if (email.equals("") && email2.equals("") && email3.equals("")) {
+      return "";
+    } else {
+      return Arrays.asList(email, email2, email3)
+              .stream().filter((s) -> ! s.equals("")).collect(Collectors.joining("\n"));
+    }
   }
 
   public static String cleaned(String phone) {
     return phone.replaceAll("\\s", "").replaceAll("[-()]", "");
-  }
-
-  public void fillAllPhones (ContactData contactData) {
-    if (contactData.getHomePhone() != null || contactData.getMobilePhone() != null
-            || contactData.getWorkPhone() != null || contactData.getPhone2() != null) {
-      contactData = contactData.withAllPhones(app.contact().mergePhones(contactData));
-    }
-  }
-
-  public void fillAllEmail (ContactData contactData) {
-    if (contactData.getEmail() != null || contactData.getEmail2() != null || contactData.getEmail3() != null) {
-      contactData = contactData.withAllEmail(app.contact().mergeEmail(contactData));
-    }
   }
 
 }
