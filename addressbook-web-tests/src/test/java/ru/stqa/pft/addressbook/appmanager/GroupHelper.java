@@ -33,8 +33,12 @@ public class GroupHelper extends BaseHelper {
     click(By.linkText("group page"));
   }
 
+  public void goToGroupContactList() {
+    click(By.xpath("//a[contains(text(),'group page ')]"));
+  }
+
   private void selectById(int id) {
-    wd.findElement(By.cssSelector("input[value='" + id + "']")).click();
+    click(By.cssSelector("input[value='" + id + "']"));
   }
 
   public void initDeletion() {
@@ -48,7 +52,6 @@ public class GroupHelper extends BaseHelper {
   public void submitModification() {
     click(By.name("update"));
   }
-
 
   public void create(GroupData groupData) {
     initCreation();

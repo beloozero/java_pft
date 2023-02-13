@@ -16,6 +16,8 @@ public class DbHelper {
 
   private final SessionFactory sessionFactory;
 
+  private String baseFilter = " deprecated = '0000-00-00 00:00:00' ";
+
   public DbHelper() {
     final StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
             .configure()
@@ -32,10 +34,28 @@ public class DbHelper {
     return new Groups(result);
   }
 
+  public Groups groups(int id) {
+    Session session = sessionFactory.openSession();
+    session.beginTransaction();
+    List<GroupData> result = session.createQuery( String.format("from GroupData where group_id = %s", id)).list();
+    session.getTransaction().commit();
+    session.close();
+    return new Groups(result);
+  }
+
   public Contacts contacts() {
     Session session = sessionFactory.openSession();
     session.beginTransaction();
-    List<ContactData> result = session.createQuery( "from ContactData where deprecated = '0000-00-00 00:00:00'").list();
+    List<ContactData> result = session.createQuery( String.format("from ContactData where %s", baseFilter)).list();
+    session.getTransaction().commit();
+    session.close();
+    return new Contacts(result);
+  }
+
+  public Contacts contacts(int id) {
+    Session session = sessionFactory.openSession();
+    session.beginTransaction();
+    List<ContactData> result = session.createQuery( String.format("from ContactData where %s and id = %s", baseFilter, id)).list();
     session.getTransaction().commit();
     session.close();
     return new Contacts(result);

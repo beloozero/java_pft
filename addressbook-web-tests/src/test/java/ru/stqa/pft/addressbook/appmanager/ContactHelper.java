@@ -7,6 +7,7 @@ import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import ru.stqa.pft.addressbook.model.ContactData;
 import ru.stqa.pft.addressbook.model.Contacts;
+import ru.stqa.pft.addressbook.model.GroupData;
 
 import java.util.Arrays;
 import java.util.List;
@@ -59,7 +60,7 @@ public class ContactHelper extends BaseHelper {
   }
 
   private void selectById(int id) {
-    wd.findElement(By.xpath("//input[@id='"+id + "']")).click();
+    click(By.xpath("//input[@id='"+id + "']"));
   }
 
   public void initDeletionFromContactList() {
@@ -72,7 +73,7 @@ public class ContactHelper extends BaseHelper {
   }
 
   private void initModificationFromContactListById(int id) {
-   wd.findElement(By.xpath(String.format("//tr[.//input[@id=%s]]//img[@title='Edit']", id))).click();
+   click(By.xpath(String.format("//tr[.//input[@id=%s]]//img[@title='Edit']", id)));
   }
 
   public void initModificationFromContactDetails() {
@@ -84,11 +85,31 @@ public class ContactHelper extends BaseHelper {
   }
 
   private void openDetailsById(int id) {
-    wd.findElement(By.xpath("//input[@id='"+ id + "']/../..//img[@title='Details']")).click();
+    click(By.xpath("//input[@id='"+ id + "']/../..//img[@title='Details']"));
+  }
+
+  private void selectGroupWhereToAdd(GroupData groupForContact) {
+    new Select(wd.findElement(By.name("to_group"))).selectByValue(Integer.toString(groupForContact.getId()));
+  }
+
+  public void selectContactGroupToShow(String group) {
+    if (group.equals("[all]")) {
+      new Select(wd.findElement(By.name("group"))).selectByVisibleText(group);
+    } else {
+      new Select(wd.findElement(By.name("group"))).selectByValue(group);
+    }
+  }
+
+  private void submitAddingToGroup() {
+    click(By.xpath("//input[@name='add']"));
   }
 
   public boolean isThereAContact() {
     return isElementPresent(By.name("selected[]"));
+  }
+
+  public boolean isThereAContactById(int id) {
+    return isElementPresent(By.xpath("//input[@id='"+id + "']"));
   }
 
   public int count() {
@@ -132,6 +153,24 @@ public class ContactHelper extends BaseHelper {
     initDeletionFromContactEditForm();
     contactCache = null;
     app.goTo().homePage();
+  }
+
+  public void addToGroup(ContactData modContact, GroupData groupForContact) {
+    selectById(modContact.getId());
+    selectGroupWhereToAdd(groupForContact);
+    submitAddingToGroup();
+    contactCache = null;
+  }
+
+  public void deleteFromGroup(ContactData delContact, GroupData modGroup) {
+    selectContactGroupToShow(Integer.toString(modGroup.getId()));
+    selectById(delContact.getId());
+    submitRemove();
+    contactCache = null;
+  }
+
+  private void submitRemove() {
+    click(By.xpath("//input[@name='remove']"));
   }
 
   public Contacts all() {
