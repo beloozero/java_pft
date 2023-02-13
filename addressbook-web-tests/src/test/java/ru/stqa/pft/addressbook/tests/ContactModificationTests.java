@@ -4,6 +4,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import ru.stqa.pft.addressbook.model.ContactData;
 import ru.stqa.pft.addressbook.model.Contacts;
+import ru.stqa.pft.addressbook.model.GroupData;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -40,9 +41,10 @@ public class ContactModificationTests extends TestBase {
             .withPhone2(modifiedContact.getPhone2())
             .withAddress(modifiedContact.getAddress())
             .withEmail2(modifiedContact.getEmail2())
-            .withEmail3(modifiedContact.getEmail3())
-            .withGroup(modifiedContact.getGroup())
-            .withGroupId(modifiedContact.getGroupId());
+            .withEmail3(modifiedContact.getEmail3());
+    for (GroupData groupData : modifiedContact.getGroups()) {
+      newContact = newContact.inGroup(groupData);
+    }
     assertThat(app.contact().count(), equalTo(before.size()));
     Contacts after = app.db().contacts();
     assertThat(after, equalTo(before.without(modifiedContact).withAdded(newContact)));
@@ -67,9 +69,10 @@ public class ContactModificationTests extends TestBase {
             .withPhone2(modifiedContact.getPhone2())
             .withAddress(modifiedContact.getAddress())
             .withEmail2(modifiedContact.getEmail2())
-            .withEmail3(modifiedContact.getEmail3())
-            .withGroup(modifiedContact.getGroup())
-            .withGroupId(modifiedContact.getGroupId());
+            .withEmail3(modifiedContact.getEmail3());
+    for (GroupData groupData : modifiedContact.getGroups()) {
+      newContact = newContact.inGroup(groupData);
+    }
     assertThat(app.contact().count(), equalTo(before.size()));
     Contacts after = app.db().contacts();
     assertThat(after, equalTo(before.without(modifiedContact).withAdded(newContact)));

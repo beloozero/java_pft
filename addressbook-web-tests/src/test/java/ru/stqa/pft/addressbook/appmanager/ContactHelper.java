@@ -40,10 +40,10 @@ public class ContactHelper extends BaseHelper {
     type(By.name("email3"), contactData.getEmail3());
     type(By.name("phone2"), contactData.getPhone2());
     if (creation) {
-      if (contactData.getGroup() != null) {
-        new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(contactData.getGroup());
-      } else if (contactData.getGroupId() != 0) {
-        new Select(wd.findElement(By.name("new_group"))).selectByValue(Integer.toString(contactData.getGroupId()));
+      if (contactData.getGroups().size() > 0) {
+        Assert.assertEquals(contactData.getGroups().size(), 1);
+        new Select(wd.findElement(By.name("new_group")))
+                .selectByValue(Integer.toString(contactData.getGroups().iterator().next().getId()));
       }
     } else {
       Assert.assertFalse(isElementPresent(By.name("new_group")));

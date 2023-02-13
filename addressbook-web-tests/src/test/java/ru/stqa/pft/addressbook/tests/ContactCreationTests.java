@@ -7,6 +7,7 @@ import org.testng.annotations.*;
 import ru.stqa.pft.addressbook.model.ContactData;
 import ru.stqa.pft.addressbook.model.Contacts;
 import ru.stqa.pft.addressbook.model.GroupData;
+import ru.stqa.pft.addressbook.model.Groups;
 
 import java.io.*;
 import java.util.Iterator;
@@ -63,15 +64,14 @@ public class ContactCreationTests extends TestBase {
       app.goTo().groupPage();
       app.group().create(new GroupData().withName("Группа для контакта").withHeader("test"));
     }
-    int groupIdForContactCreation = app.db().groups().iterator().next().getId();
+    Groups groupsForContact = app.db().groups();
     app.goTo().homePage();
-
     Contacts before = app.db().contacts();
     File photo = new File("src/test/resources/cat.png");
     ContactData newContact = new ContactData()
             .withFirstName("Маша").withLastName("Аппараткина").withHomePhone("+73834567890")
-            .withMobilePhone("89534563245").withEmail("kk@mail.ru").withGroupId(groupIdForContactCreation)
-            .withPhoto(photo);
+            .withMobilePhone("89534563245").withEmail("kk@mail.ru").withPhoto(photo)
+            .inGroup(groupsForContact.iterator().next());
     app.contact().create(newContact);
     assertThat(app.contact().count(), equalTo(before.size() + 1));
     Contacts after = app.db().contacts();
