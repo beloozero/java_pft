@@ -15,10 +15,11 @@ public class ApplicationManager {
   private final Properties properties;
   private WebDriver wd;
   private final String browser;
-  private RegistrationHelper registrationHelper;
+  private GuiHelper guiHelper;
   private FtpHelper ftp;
   private MailHelper mailHelper;
   private JamesHelper jamesHelper;
+  private DbHelper dbHelper;
 
   public ApplicationManager(String browser) {
     this.browser = browser;
@@ -44,11 +45,11 @@ public class ApplicationManager {
     return properties.getProperty(key);
   }
 
-  public RegistrationHelper registration() {
-    if (registrationHelper == null) {
-      registrationHelper = new RegistrationHelper(this);
+  public GuiHelper gui() {
+    if (guiHelper == null) {
+      guiHelper = new GuiHelper(this);
     }
-    return registrationHelper;
+    return guiHelper;
   }
 
   public FtpHelper ftp() {
@@ -85,5 +86,12 @@ public class ApplicationManager {
       jamesHelper = new JamesHelper(this);
     }
     return jamesHelper;
+  }
+
+  public DbHelper db() {
+    if (dbHelper == null) {
+      dbHelper = new DbHelper();
+    }
+    return dbHelper;
   }
 }
