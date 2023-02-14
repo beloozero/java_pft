@@ -13,8 +13,9 @@ import java.util.Properties;
 
 public class ApplicationManager {
   private final Properties properties;
-  WebDriver wd;
-  private String browser;
+  private WebDriver wd;
+  private final String browser;
+  private RegistrationHelper registrationHelper;
 
   public ApplicationManager(String browser) {
     this.browser = browser;
@@ -24,20 +25,12 @@ public class ApplicationManager {
   public void init() throws IOException {
     String target = System.getProperty("target", "local");
     properties.load(new FileReader(String.format("src/test/resources/%s.properties", target)));
-
-    if (browser.equals(Browser.CHROME.browserName())) {
-      System.setProperty("webdriver.chrome.driver", properties.getProperty("chrome.driver.path"));
-      wd = new ChromeDriver();
-    } else if (browser.equals(Browser.FIREFOX.browserName())) {
-      System.setProperty("webdriver.gecko.driver", properties.getProperty("firefox.driver.path"));
-      wd = new FirefoxDriver(new FirefoxOptions().setBinary(properties.getProperty("firefox.driver.binary")));
-    }
-    wd.manage().timeouts().implicitlyWait(Duration.ofSeconds(1));
-    wd.get(properties.getProperty("web.baseUrl"));
   }
 
   public void stop() {
-    wd.quit();
+    if (wd != null) {
+      wd.quit();
+    }
   }
 
   public HttpSession newSession() {
@@ -46,5 +39,27 @@ public class ApplicationManager {
 
   public String getProperty(String key) {
     return properties.getProperty(key);
+  }
+
+  public RegistrationHelper registration() {
+    if (registrationHelper == null) {
+      registrationHelper = new RegistrationHelper(this);
+    }
+    return registrationHelper;
+  }
+
+  public WebDriver getDriver() {
+    if (wd == null) {
+      if (browser.equals(Browser.CHROME.browserName())) {
+        System.setProperty("webdriver.chrome.driver", properties.getProperty("chrome.driver.path"));
+        wd = new ChromeDriver();
+      } else if (browser.equals(Browser.FIREFOX.browserName())) {
+        System.setProperty("webdriver.gecko.driver", properties.getProperty("firefox.driver.path"));
+        wd = new FirefoxDriver(new FirefoxOptions().setBinary(properties.getProperty("firefox.driver.binary")));
+      }
+      wd.manage().timeouts().implicitlyWait(Duration.ofSeconds(1));
+      wd.get(properties.getProperty("web.baseUrl"));
+    }
+    return wd;
   }
 }
