@@ -9,6 +9,7 @@ import ru.stqa.pft.mantis.model.UserData;
 import ru.stqa.pft.mantis.model.Users;
 
 import javax.mail.MessagingException;
+import javax.xml.rpc.ServiceException;
 import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -28,9 +29,11 @@ public class ChangePasswordTests extends TestBase {
   }
 
   @Test
-  public void testChangePassword() throws MessagingException, IOException {
+  public void testChangePassword() throws MessagingException, IOException, ServiceException {
+    skipIfNotFixed(1);
     String newPassword = String.format("pass%s", System.currentTimeMillis());
     app.gui().login(app.getProperty("web.adminLogin"), app.getProperty("web.adminPassword"));
+    app.gui().gotoMenuItem("Manage");
     app.gui().gotoMenuItem("Manage Users");
     Users users = app.db().users();
     assertTrue(users.size() > 0);

@@ -7,6 +7,8 @@ public class Issue {
   private String description;
   private Project project;
 
+  private IssueStatus status;
+
   public int getId() {
     return id;
   }
@@ -21,6 +23,10 @@ public class Issue {
 
   public Project getProject() {
     return project;
+  }
+
+  public IssueStatus getStatus() {
+    return status;
   }
 
   public Issue withId(int id) {
@@ -43,4 +49,41 @@ public class Issue {
     return this;
   }
 
+  public Issue withStatus(IssueStatus status) {
+    this.status = status;
+    return this;
+  }
+
+  public enum IssueStatus {
+    NEW (10),
+    FEEDBACK (20),
+    ACKNOWLEDGED (30),
+    CONFIRMED (40),
+    ASSIGNED (50),
+    RESOLVED (80),
+    CLOSED (90);
+
+    private final int id;
+
+    IssueStatus(int id) {
+      this.id = id;
+    }
+
+    public int getId() {
+      return id;
+    }
+
+    public static IssueStatus find(int id) {
+      IssueStatus[] statuses = values();
+      for (IssueStatus status : statuses) {
+        if (status.id == id)
+          return status;
+      }
+      return null;
+    }
+
+  }
+
 }
+
+
