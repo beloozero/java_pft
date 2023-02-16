@@ -1,4 +1,4 @@
-package ru.stqa.pft.rest;
+package ru.stqa.pft.rest.model;
 
 import java.util.Objects;
 
@@ -7,6 +7,7 @@ public class Issue {
   private int id;
   private String subject;
   private String description;
+  private String state;
 
   public int getId() {
     return id;
@@ -18,6 +19,10 @@ public class Issue {
 
   public String getDescription() {
     return description;
+  }
+
+  public String getState() {
+    return state;
   }
 
   public Issue withId(int id) {
@@ -35,6 +40,21 @@ public class Issue {
     return this;
   }
 
+  public Issue withState(String state) {
+    this.state = state;
+    return this;
+  }
+
+  @Override
+  public String toString() {
+    return "Issue{" +
+            "id=" + id +
+            ", subject='" + subject + '\'' +
+            ", description='" + description + '\'' +
+            ", state='" + state + '\'' +
+            '}';
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
@@ -44,7 +64,8 @@ public class Issue {
 
     if (id != issue.id) return false;
     if (!Objects.equals(subject, issue.subject)) return false;
-    return Objects.equals(description, issue.description);
+    if (!Objects.equals(description, issue.description)) return false;
+    return Objects.equals(state, issue.state);
   }
 
   @Override
@@ -52,6 +73,7 @@ public class Issue {
     int result = id;
     result = 31 * result + (subject != null ? subject.hashCode() : 0);
     result = 31 * result + (description != null ? description.hashCode() : 0);
+    result = 31 * result + (state != null ? state.hashCode() : 0);
     return result;
   }
 }

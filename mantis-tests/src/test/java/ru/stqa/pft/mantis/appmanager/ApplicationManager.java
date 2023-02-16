@@ -20,7 +20,6 @@ public class ApplicationManager {
   private MailHelper mailHelper;
   private JamesHelper jamesHelper;
   private DbHelper dbHelper;
-
   private SoapHelper soapHelper;
 
   public ApplicationManager(String browser) {
