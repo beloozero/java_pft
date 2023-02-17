@@ -47,7 +47,7 @@ public class ApplicationManager {
       DesiredCapabilities capabilities = new DesiredCapabilities();
       capabilities.setBrowserName(browser);
       System.setProperty("webdriver.gecko.driver", properties.getProperty("firefox.driver.path"));
-      System.setProperty(FirefoxDriver.SystemProperty.BROWSER_BINARY, properties.getProperty("firefox.driver.binary"));
+      System.setProperty("webdriver.firefox.bin", properties.getProperty("firefox.driver.binary"));
       wd = new RemoteWebDriver(new URL(properties.getProperty("selenium.server")), capabilities);
     }
     groupHelper = new GroupHelper(wd);
