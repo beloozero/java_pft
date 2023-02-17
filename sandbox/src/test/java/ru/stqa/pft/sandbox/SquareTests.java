@@ -9,7 +9,7 @@ public class SquareTests {
   @Test
   public void testArea() {
     Square sq = new Square(5);
-    Assert.assertEquals(sq.area(), 25.0);
+    Assert.assertEquals(sq.area(), 20.0);
 
   }
 }
