@@ -4,7 +4,6 @@ import org.openqa.selenium.Platform;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.remote.Browser;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
@@ -33,26 +32,26 @@ public class ApplicationManager {
   public void init() throws IOException {
     String target = System.getProperty("target", "local");
     properties.load(new FileReader(String.format("src/test/resources/%s.properties", target)));
-
     dbHelper = new DbHelper();
-
-    System.setProperty("webdriver.chrome.driver", properties.getProperty("chrome.driver.path"));
-    System.setProperty("webdriver.gecko.driver", properties.getProperty("firefox.driver.path"));
-    FirefoxOptions firefoxOptions = new FirefoxOptions().setBinary(properties.getProperty("firefox.driver.binary"));
-
     if ("".equals(properties.getProperty("selenium.server"))) {
       if (browser.equals(Browser.CHROME.browserName())) {
+        System.setProperty("webdriver.chrome.driver", properties.getProperty("chrome.driver.path"));
         wd = new ChromeDriver();
       } else if (browser.equals(Browser.FIREFOX.browserName())) {
-        wd = new FirefoxDriver(firefoxOptions);
+        System.setProperty("webdriver.gecko.driver", properties.getProperty("firefox.driver.path"));
+        wd = new FirefoxDriver();
       }
     } else {
       DesiredCapabilities capabilities = new DesiredCapabilities();
       capabilities.setBrowserName(browser);
       capabilities.setPlatform(Platform.fromString(System.getProperty("platform", "win8")));
+      /*
       if (browser.equals(Browser.FIREFOX.browserName())) {
+         // FirefoxOptions firefoxOptions = new FirefoxOptions().setBinary(properties.getProperty("firefox.driver.binary"));
+        // webdriver.firefox.bin
         capabilities.setCapability(FirefoxOptions.FIREFOX_OPTIONS, firefoxOptions);
       }
+      */
       wd = new RemoteWebDriver(new URL(properties.getProperty("selenium.server")), capabilities);
     }
     groupHelper = new GroupHelper(wd);
