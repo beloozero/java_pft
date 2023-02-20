@@ -1,5 +1,6 @@
 package ru.stqa.pft.addressbook.appmanager;
 
+import org.openqa.selenium.Platform;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -35,20 +36,23 @@ public class ApplicationManager {
 
     dbHelper = new DbHelper();
 
+    System.setProperty("webdriver.chrome.driver", properties.getProperty("chrome.driver.path"));
+    System.setProperty("webdriver.gecko.driver", properties.getProperty("firefox.driver.path"));
+    FirefoxOptions firefoxOptions = new FirefoxOptions().setBinary(properties.getProperty("firefox.driver.binary"));
+
     if ("".equals(properties.getProperty("selenium.server"))) {
       if (browser.equals(Browser.CHROME.browserName())) {
-        System.setProperty("webdriver.chrome.driver", properties.getProperty("chrome.driver.path"));
         wd = new ChromeDriver();
       } else if (browser.equals(Browser.FIREFOX.browserName())) {
-        System.setProperty("webdriver.gecko.driver", properties.getProperty("firefox.driver.path"));
-        wd = new FirefoxDriver(new FirefoxOptions().setBinary(properties.getProperty("firefox.driver.binary")));
+        wd = new FirefoxDriver(firefoxOptions);
       }
     } else {
       DesiredCapabilities capabilities = new DesiredCapabilities();
       capabilities.setBrowserName(browser);
-      System.setProperty("webdriver.gecko.driver", properties.getProperty("firefox.driver.path"));
-      //  System.setProperty("webdriver.firefox.bin", properties.getProperty("firefox.driver.binary"));
-      capabilities.setCapability(FirefoxOptions.FIREFOX_OPTIONS, new FirefoxOptions().setBinary(properties.getProperty("firefox.driver.binary")));
+      capabilities.setPlatform(Platform.fromString(System.getProperty("platform", "win8")));
+      if (browser.equals(Browser.FIREFOX.browserName())) {
+        capabilities.setCapability(FirefoxOptions.FIREFOX_OPTIONS, firefoxOptions);
+      }
       wd = new RemoteWebDriver(new URL(properties.getProperty("selenium.server")), capabilities);
     }
     groupHelper = new GroupHelper(wd);
