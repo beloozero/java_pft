@@ -4,8 +4,6 @@ import org.openqa.selenium.Platform;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.firefox.FirefoxOptions;
-import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.remote.Browser;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
@@ -47,12 +45,6 @@ public class ApplicationManager {
       DesiredCapabilities capabilities = new DesiredCapabilities();
       capabilities.setBrowserName(browser);
       capabilities.setPlatform(Platform.fromString(System.getProperty("platform", "win8")));
-      if (browser.equals(Browser.FIREFOX.browserName())) {
-        FirefoxProfile profile = new FirefoxProfile();
-        FirefoxOptions options = new FirefoxOptions();
-        options.setProfile(profile);
-        capabilities.setCapability(FirefoxOptions.FIREFOX_OPTIONS, options);
-      }
       wd = new RemoteWebDriver(new URL(properties.getProperty("selenium.server")), capabilities);
     }
     groupHelper = new GroupHelper(wd);
