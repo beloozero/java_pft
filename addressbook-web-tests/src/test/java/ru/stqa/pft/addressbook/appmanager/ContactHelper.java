@@ -66,10 +66,12 @@ public class ContactHelper extends BaseHelper {
   public void initDeletionFromContactList() {
     click(By.xpath("//input[@value='Delete']"));
     wd.switchTo().alert().accept();
+    wd.findElement(By.cssSelector("div.msgbox"));
   }
 
   public void initDeletionFromContactEditForm() {
     click(By.xpath("//div[@id='content']/form[2]/input[2]"));
+    wd.findElement(By.cssSelector("div.msgbox"));
   }
 
   private void initModificationFromContactListById(int id) {
