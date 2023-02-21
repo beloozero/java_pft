@@ -58,7 +58,7 @@ public class ContactCreationTests extends TestBase {
     app.goTo().homePage();
   }
 
-  @Test(enabled = false)
+  @Test
   public void testContactCreationWithPhotoAndGroup() {
     if (app.db().groups().size() == 0) {
       app.goTo().groupPage();
