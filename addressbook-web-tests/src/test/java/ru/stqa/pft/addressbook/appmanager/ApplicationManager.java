@@ -1,7 +1,6 @@
 package ru.stqa.pft.addressbook.appmanager;
 
 import org.openqa.selenium.Platform;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.remote.Browser;
@@ -17,7 +16,7 @@ import java.util.Properties;
 
 public class ApplicationManager {
   private final Properties properties;
-  WebDriver wd;
+  RemoteWebDriver wd;
   private ContactHelper contactHelper;
   private SessionHelper sessionHelper;
   private GroupHelper groupHelper;
@@ -46,7 +45,7 @@ public class ApplicationManager {
       DesiredCapabilities capabilities = new DesiredCapabilities();
       capabilities.setBrowserName(browser);
       capabilities.setPlatform(Platform.fromString(System.getProperty("platform", "win8")));
-      RemoteWebDriver wd = new RemoteWebDriver(new URL(properties.getProperty("selenium.server")), capabilities);
+      wd = new RemoteWebDriver(new URL(properties.getProperty("selenium.server")), capabilities);
       wd.setFileDetector(new LocalFileDetector());
     }
     groupHelper = new GroupHelper(wd);
