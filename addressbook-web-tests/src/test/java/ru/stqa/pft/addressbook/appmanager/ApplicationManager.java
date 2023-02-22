@@ -6,6 +6,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.remote.Browser;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.LocalFileDetector;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
 import java.io.FileReader;
@@ -45,7 +46,8 @@ public class ApplicationManager {
       DesiredCapabilities capabilities = new DesiredCapabilities();
       capabilities.setBrowserName(browser);
       capabilities.setPlatform(Platform.fromString(System.getProperty("platform", "win8")));
-      wd = new RemoteWebDriver(new URL(properties.getProperty("selenium.server")), capabilities);
+      RemoteWebDriver wd = new RemoteWebDriver(new URL(properties.getProperty("selenium.server")), capabilities);
+      wd.setFileDetector(new LocalFileDetector());
     }
     groupHelper = new GroupHelper(wd);
     navigationHelper = new NavigationHelper(wd);
